@@ -38,7 +38,7 @@ for (var i = 0, l = storeKeys.length; i < l; i ++) {
     //Generates 14 random numbers to append to dailySales
     var total = 0;
     for (var n = 0; n < 14; n++) {
-      var hourlySales = this.cookiesPerHour();
+      var hourlySales = Math.floor(this.cookiesPerHour());
       this.dailySales.push(hourlySales);
       total += hourlySales;
     }
@@ -68,15 +68,16 @@ for (var i = 0, l = storeKeys.length; i < l; i ++) {
 
 function postSales() {
   for (var keys in stores) {
+    var storeDiv = document.createElement('div');
     var title = document.createElement('h1');
     title.innerHTML = keys;
-    document.body.appendChild(title);
+    storeDiv.appendChild(title);
 
 
     for (var days in stores[keys].weeklySales) {
       var dayTitle = document.createElement('h2');
       dayTitle.innerHTML = days;
-      document.body.appendChild(dayTitle);
+      storeDiv.appendChild(dayTitle);
       var week = stores[keys].weeklySales;
       var listStart = document.createElement('ul');
 
@@ -93,8 +94,14 @@ function postSales() {
         listStart.appendChild(listInner);
       }
 
-      document.body.appendChild(listStart);
+      storeDiv.appendChild(listStart);
     }
+    document.body.appendChild(storeDiv);
+  }
+  for (var i = 0; i < 5; i++) {
+    document.getElementsByTagName('div')[i].style.display = 'inline-block';
+    document.getElementsByTagName('div')[i].style.outline = '1px solid black';
+    document.getElementsByTagName('div')[i].style.width = '200px';
   }
 }
 
