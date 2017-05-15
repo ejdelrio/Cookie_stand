@@ -22,6 +22,7 @@ var stores = {
 var storeKeys = Object.keys(stores);
 
 for (var i = 0, l = storeKeys.length; i < l; i ++) {
+  //Assigns each store location to an write/read variable
   var storeLocation = stores[storeKeys[i]];
   storeLocation.minPerHour = mins[i];
   storeLocation.maxPerHour = maxes[i];
@@ -43,6 +44,7 @@ for (var i = 0, l = storeKeys.length; i < l; i ++) {
     }
     this.dailySales.push(total);
   },
+  //Creates a week object that will house each daily sales array
   storeLocation.weeklySales = {
     monday: '',
     tuesday: '',
@@ -53,6 +55,7 @@ for (var i = 0, l = storeKeys.length; i < l; i ++) {
     sunday: ''
   },
   storeLocation.weeklyGen = function () {
+    //runs dailySales function 7 times and defines each array one as a weekly value
     for (var key in this.weeklySales) {
       this.salesGen();
       this.weeklySales[key] = (this.dailySales);
@@ -61,3 +64,38 @@ for (var i = 0, l = storeKeys.length; i < l; i ++) {
   };
   storeLocation.weeklyGen();
 }
+
+
+function postSales() {
+  for (var keys in stores) {
+    var title = document.createElement('h1');
+    title.innerHTML = keys;
+    document.body.appendChild(title);
+
+
+    for (var days in stores[keys].weeklySales) {
+      var dayTitle = document.createElement('h2');
+      dayTitle.innerHTML = days;
+      document.body.appendChild(dayTitle);
+      var week = stores[keys].weeklySales;
+      var listStart = document.createElement('ul');
+
+
+      for (i = 0; i < 15; i++) {
+        var listInner = document.createElement('li');
+        if (i < 7) {
+          listInner.innerHTML = (i + 6) + 'am: ' + week[days][i];
+        } else if (i >= 7 && i < 14) {
+          listInner.innerHTML = (i - 6) + 'pm: ' + week[days][i];
+        } else {
+          listInner.innerHTML = 'Total: ' + week[days][i];
+        }
+        listStart.appendChild(listInner);
+      }
+
+      document.body.appendChild(listStart);
+    }
+  }
+}
+
+postSales();
