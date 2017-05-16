@@ -1,10 +1,10 @@
 'use strict';
 //array of minimums sales in order of locations
-var mins = [23, 3, 11, 20, 2, 30];
+var mins = [23, 3, 11, 20, 2];
 //array of max sales in order of locations
-var maxes = [64, 28, 38, 38, 16, 12];
+var maxes = [64, 28, 38, 38, 16];
 //Array of average sales per customer in order
-var averages = [6.3, 1.2, 3.7, 2.3, 4.6, 10];
+var averages = [6.3, 1.2, 3.7, 2.3, 4.6];
 //object called stores contains a list of stores with their location as the key for each location
 var stores = {
   firstAndPike : {
@@ -16,8 +16,7 @@ var stores = {
   capitalHill: {
   },
   alki: {
-  },
-  NewYork: {}
+  }
 };
 //array of values from stores object
 var storeKeys = Object.keys(stores);
