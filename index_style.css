@@ -1,0 +1,51 @@
+body {
+  font-family: fantasy;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+/* app styles */
+
+header {
+  position: fixed;
+  height: 100px;
+  width: 100%;
+  background: red;
+  top: 0;
+  left: 0;
+}
+
+header div {
+  width: 960px;
+  margin: 0 auto;
+}
+
+header div img {
+  float: left;
+  margin-right: 50px;
+  margin-top: 15px;
+}
+
+nav ul li {
+  display: inline-block;
+  margin-right: 70px;
+  margin-top: 45px;
+}
+
+main {
+  width: 960px;
+  height: 1500px;
+  margin: 30px auto;
+  margin-top: 130px;
+  background: blue;
+}
+
+.master_image {
+  width: 100%;
+}
