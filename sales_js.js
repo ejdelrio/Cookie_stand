@@ -7,8 +7,8 @@ var mins = [23, 3, 11, 20, 2];
 var maxes = [64, 28, 38, 38, 16];
 //Array of average sales per customer in order
 var averages = [6.3, 1.2, 3.7, 2.3, 4.6];
-//object called allStores contains a list of allStores with their location as the key for each location
-var allStores = {
+//object called cookieStores contains a list of cookieStores with their location as the key for each location
+var cookieStores = {
   firstAndPike : '',
   seaTacAirport: '',
   seattleCenter: '',
@@ -17,7 +17,7 @@ var allStores = {
 };
 
 function Store (minimum, maximum, averages) {
-  //Assigns each store location to an write/read variable
+  //Store constructor that creates new store Objects
   this.minPerHour = minimum;//Assigns minPerHour key to corresponding value.
   this.maxPerHour = maximum; //Assigns mxnPerHour key to corresponding value
   this.avgPerCustomer = averages; //Assigns avgPerCustomer key to corresponding value
@@ -64,20 +64,19 @@ Store.prototype.weeklyGen = function () {
     this.dailySales = [];
   }
 };
-
-
-
-var storeKeys = Object.keys(allStores);
+//Creates array of cookieStores keys
+var storeKeys = Object.keys(cookieStores);
+//Loops through keys and plugs them into cookieStores with corresponding values of mins, maxes and averages
 for (var i = 0; i < storeKeys.length; i++) {
-  allStores[storeKeys[i]] = new Store(mins[i], maxes[i], averages[i]);
-  allStores[storeKeys[i]].weeklyGen();
+  cookieStores[storeKeys[i]] = new Store(mins[i], maxes[i], averages[i]);
+  cookieStores[storeKeys[i]].weeklyGen(); //Calls weeklyGen to populate daily and hourly sales arrays
 }
 
 
 function postSales() {
-  //Sort through allStores Objectes and creates sorted DOM elements for each
+  //Sort through cookieStores Objectes and creates sorted DOM elements for each
   //location, day and hour with corresponding sales
-  for (var keys in allStores) {
+  for (var keys in cookieStores) {
     //creates a div that will house each list of days and hours
     var storeDiv = document.createElement('div');
     //title will hold the store name and display it at the top of the div
@@ -86,12 +85,12 @@ function postSales() {
     storeDiv.appendChild(title);
 
 
-    for (var days in allStores[keys].weeklySales) {
+    for (var days in cookieStores[keys].weeklySales) {
       //h2 will hold each indiviual day. Week object for each lement is accessed and each day key is iterated through.
       var dayTitle = document.createElement('h2');
       dayTitle.innerHTML = days;
       storeDiv.appendChild(dayTitle);
-      var week = allStores[keys].weeklySales;
+      var week = cookieStores[keys].weeklySales;
       var listStart = document.createElement('ul');
       listStart.style.outline = '1px solid black';
 
@@ -111,12 +110,12 @@ function postSales() {
     }
     document.body.appendChild(storeDiv);
   }
-  for (var i = 0; i < Object.keys(allStores).length; i++) {
+  for (var i = 0; i < Object.keys(cookieStores).length; i++) {
     document.getElementsByTagName('div')[i].style.display = 'inline-block';
     document.getElementsByTagName('div')[i].style.outline = '1px solid black';
     document.getElementsByTagName('div')[i].style.width = '350px';
   }
 }
 
-
+//Calls the postSale to make changes to sales.html
 postSales();
