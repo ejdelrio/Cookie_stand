@@ -16,33 +16,37 @@ var stores = {
   capitalHill: {
   },
   alki: {
-  }
+  },
+  NewYork: {}
 };
 //array of values from stores object
 var storeKeys = Object.keys(stores);
 
 for (var i = 0, l = storeKeys.length; i < l; i ++) {
   //Assigns each store location to an write/read variable
-  var storeLocation = stores[storeKeys[i]];
-  storeLocation.minPerHour = mins[i];
-  storeLocation.maxPerHour = maxes[i];
-  storeLocation.avgPerCustomer = averages[i];
+  var storeLocation = stores[storeKeys[i]];//Assigns each store object to storelocation
+  storeLocation.minPerHour = mins[i];//Assigns minPerHour key to corresponding value.
+  storeLocation.maxPerHour = maxes[i]; //Assigns mxnPerHour key to corresponding value
+  storeLocation.avgPerCustomer = averages[i]; //Assigns avgPerCustomer key to corresponding value
+  storeLocation.opening = 6; //Assigns each location an opening time
+  storeLocation.closing = 20; //Assigns each location a closing time
   storeLocation.cusPerHour = function () {
+    //generates a random number that is between the minPerHour and maxPerHour
     return Math.floor(Math.random() * (this.maxPerHour - this.minPerHour) + this.minPerHour);
   },
   storeLocation.cookiesPerHour = function () {
     return this.cusPerHour() * this.avgPerCustomer;
   },
-  storeLocation.dailySales = [],
+  storeLocation.dailySales = [],//Empty array that hold hourly sales
   storeLocation.salesGen = function () {
     //Generates 14 random numbers to append to dailySales
-    var total = 0;
-    for (var n = 0; n < 14; n++) {
+    var total = 0;//Counter that becomes total of hourly sales
+    for (var n = 0; n < (this.closing - this.opening); n++) {
       var hourlySales = Math.floor(this.cookiesPerHour());
       this.dailySales.push(hourlySales);
       total += hourlySales;
     }
-    this.dailySales.push(total);
+    this.dailySales.push(total);//Pushes total to the end of the array
   },
   //Creates a week object that will house each daily sales array
   storeLocation.weeklySales = {
@@ -103,7 +107,7 @@ function postSales() {
   for (var i = 0; i < Object.keys(stores).length; i++) {
     document.getElementsByTagName('div')[i].style.display = 'inline-block';
     document.getElementsByTagName('div')[i].style.outline = '1px solid black';
-    document.getElementsByTagName('div')[i].style.width = '200px';
+    document.getElementsByTagName('div')[i].style.width = '350px';
   }
 }
 
