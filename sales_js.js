@@ -72,30 +72,27 @@ for (var i = 0; i < storeKeys.length; i++) {
   cookieStores[storeKeys[i]].weeklyGen(); //Calls weeklyGen to populate daily and hourly sales arrays
 }
 
+function tableGen(cookieKey) {
+  var container = document.createElement('div');
+  var title = document.createElement('h1');
+  title.innerHTML = cookieKey;
+  container.appendChild(title);
+  for (var day in cookieStores[cookieKey].weeklySales) {
+    var dayTitle = document.createElement('h2');
+    dayTitle.innerHTML = day;
+    container.appendChild(dayTitle);
+    var salesTable = document.createElement('table');
+    var tableHead = document.createElement('thead')
+  }
 
-function postSales() {
-  //Sort through cookieStores Objectes and creates sorted DOM elements for each
-  //location, day and hour with corresponding sales
-  for (var keys in cookieStores) {
-    //creates a div that will house each list of days and hours
-    var storeDiv = document.createElement('div');
-    //title will hold the store name and display it at the top of the div
-    var title = document.createElement('h1');
-    title.innerHTML = keys;
-    storeDiv.appendChild(title);
 
 
-    for (var days in cookieStores[keys].weeklySales) {
-      //h2 will hold each indiviual day. Week object for each lement is accessed and each day key is iterated through.
-      var dayTitle = document.createElement('h2');
-      dayTitle.innerHTML = days;
-      storeDiv.appendChild(dayTitle);
-      var week = cookieStores[keys].weeklySales;
-      var listStart = document.createElement('ul');
-      listStart.style.outline = '1px solid black';
 
-      for (i = 0; i < (closeHour - openHour) + 1; i++) {
-        var listInner = document.createElement('li');
+}
+
+
+/*      for (i = 0; i < (closeHour - openHour) + 1; i++) {
+        var listInner = document.createElement('tr');
         if (i < 7) {
           listInner.innerHTML = (i + 6) + 'am: ' + week[days][i];
         } else if (i >= 7 && i <= (closeHour - openHour)-1) {
@@ -103,19 +100,4 @@ function postSales() {
         } else {
           listInner.innerHTML = 'Total: ' + week[days][i +1];
         }
-        listStart.appendChild(listInner);
-      }
-
-      storeDiv.appendChild(listStart);
-    }
-    document.body.appendChild(storeDiv);
-  }
-  for (var i = 0; i < Object.keys(cookieStores).length; i++) {
-    document.getElementsByTagName('div')[i].style.display = 'inline-block';
-    document.getElementsByTagName('div')[i].style.outline = '1px solid black';
-    document.getElementsByTagName('div')[i].style.width = '350px';
-  }
-}
-
-//Calls the postSale to make changes to sales.html
-postSales();
+        listStart.appendChild(listInner);*/
