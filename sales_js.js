@@ -118,7 +118,7 @@ function tableGen() {
       tableRow.appendChild(nameRow);
 
 
-      for (i = 0; i < (closeHour - openHour) + 2; i++) {
+      for (i = 0; i < (closeHour - openHour) + 1; i++) {
         var salesData = document.createElement('td');
         salesData.innerHTML = cookieStores[storeKeys[x]].weeklySales[days[n]][i];
         tableRow.appendChild(salesData);
@@ -128,19 +128,25 @@ function tableGen() {
     var totalRow = document.createElement('tr');
     var tableTotal = document.createElement('td');
     tableTotal.innerHTML = 'Total';
+
     totalRow.appendChild(tableTotal);
+    var finalTotal = 0;
     for (i = 0; i < 15; i++) {
       var totalCell = document.createElement('td');
-      var totalCounter = 0;
       for (var l = 0; l < storeKeys.length; l++) {
+        var totalCounter = 0;
         for (var hour in cookieStores[storeKeys[l]].weeklySales) {
           totalCounter += cookieStores[storeKeys[l]].weeklySales[hour][i];
+
         }
       }
+      finalTotal += totalCounter;
       totalCell.innerHTML = totalCounter;
-      tableRow.appendChild(totalCell);
+      totalRow.appendChild(totalCell);
     }
-
+    var finalCell = document.createElement('td');
+    finalCell.innerHTML = finalTotal;
+    totalRow.appendChild(finalCell);
     tableBody.appendChild(totalRow);
 
 
