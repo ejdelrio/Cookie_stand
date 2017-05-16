@@ -77,12 +77,14 @@ function postSales() {
   for (var keys in stores) {
     //creates a div that will house each list of days and hours
     var storeDiv = document.createElement('div');
+    //title will hold the store name and display it at the top of the div
     var title = document.createElement('h1');
     title.innerHTML = keys;
     storeDiv.appendChild(title);
 
 
     for (var days in stores[keys].weeklySales) {
+      //h2 will hold each indiviual day. Week object for each lement is accessed and each day key is iterated through.
       var dayTitle = document.createElement('h2');
       dayTitle.innerHTML = days;
       storeDiv.appendChild(dayTitle);
