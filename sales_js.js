@@ -72,56 +72,82 @@ for (var i = 0; i < storeKeys.length; i++) {
   cookieStores[storeKeys[i]].weeklyGen(); //Calls weeklyGen to populate daily and hourly sales arrays
 }
 
-function tableGen(cookieKey) {
 
-  var container = document.createElement('div');
 
-  for (var day in cookieStores[cookieKey].weeklySales) {
+function tableGen() {
+
+
+  var days = Object.keys(cookieStores.firstAndPike.weeklySales);
+  for (var n = 0; n < days.length; n++) {
+
+    var container = document.createElement('div');
     var dayTitle = document.createElement('h1');
-    dayTitle.innerHTML = day;
+
+    dayTitle.innerHTML = days[n];
     container.appendChild(dayTitle);
+
     var salesTable = document.createElement('table');
     var tableHead = document.createElement('thead');
+    salesTable.appendChild(tableHead);
+    var hourRow = document.createElement('tr');
     var blankTd = document.createElement('td');
-    blankTd.style.border = '1px solid black';
-    tableHead.appendChild(blankTd);
-
+    blankTd.innerHTML = '';
+    hourRow.appendChild(blankTd);
 
     for (i = 0; i < (closeHour - openHour) + 1; i++) {
-      var tableData = document.createElement('td');
-
+      var tableTime = document.createElement('td');
       if (i < 7) {
-        tableData.innerHTML = (i + 6) + 'am';
+        tableTime.innerHTML = (i + 6) + 'am: ';
       } else if (i >= 7 && i <= (closeHour - openHour)-1) {
-        tableData.innerHTML = (i - 6) + 'pm';
+        tableTime.innerHTML = (i - 6) + 'pm: ';
       } else {
-        tableData.innerHTML = 'Total';
+        tableTime.innerHTML = 'Total: ';
       }
-
-      tableData.style.border = '1px solid black';
-      tableHead.appendChild(tableData);
+      hourRow.appendChild(tableTime);
     }
-    salesTable.appendChild(tableHead);
 
-    var tableBody = document.createElement('tbody');
-    var tableRow = document.createElement('tr');
 
+    var tableBody = document.createElement('tableBody');
+    tableBody.appendChild(hourRow);
+
+
+    for (var x = 0; x < storeKeys.length; x ++) {
+      var tableRow = document.createElement('tr');
+      var nameRow = document.createElement('td');
+      nameRow.innerHTML = storeKeys[x];
+      tableRow.appendChild(nameRow);
+
+
+      for (i = 0; i < (closeHour - openHour) + 2; i++) {
+        var salesData = document.createElement('td');
+        salesData.innerHTML = cookieStores[storeKeys[x]].weeklySales[days[n]][i];
+        tableRow.appendChild(salesData);
+      }
+      tableBody.appendChild(tableRow);
+    }
+    var totalRow = document.createElement('tr');
+    var tableTotal = document.createElement('td');
+    tableTotal.innerHTML = 'Total';
+    totalRow.appendChild(tableTotal);
+    for (i = 0; i < 15; i++) {
+      var totalCell = document.createElement('td');
+      var totalCounter = 0;
+      for (var l = 0; l < storeKeys.length; l++) {
+        for (var hour in cookieStores[storeKeys[l]].weeklySales) {
+          totalCounter += cookieStores[storeKeys[l]].weeklySales[hour][i];
+        }
+      }
+      totalCell.innerHTML = totalCounter;
+      tableRow.appendChild(totalCell);
+    }
+
+    tableBody.appendChild(totalRow);
+
+
+    salesTable.appendChild(tableBody);
+    container.appendChild(salesTable);
+    document.body.appendChild(container);
   }
-
-  salesTable.appendChild(tableBody);
-  container.appendChild(salesTable);
-  document.body.appendChild(container);
 }
 
-tableGen('firstAndPike');
-
-/*      for (i = 0; i < (closeHour - openHour) + 1; i++) {
-        var listInner = document.createElement('tr');
-        if (i < 7) {
-          listInner.innerHTML = (i + 6) + 'am: ' + week[days][i];
-        } else if (i >= 7 && i <= (closeHour - openHour)-1) {
-          listInner.innerHTML = (i - 6) + 'pm: ' + week[days][i];
-        } else {
-          listInner.innerHTML = 'Total: ' + week[days][i +1];
-        }
-        listStart.appendChild(listInner);*/
+tableGen();
