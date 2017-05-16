@@ -7,8 +7,8 @@ var mins = [23, 3, 11, 20, 2];
 var maxes = [64, 28, 38, 38, 16];
 //Array of average sales per customer in order
 var averages = [6.3, 1.2, 3.7, 2.3, 4.6];
-//object called stores contains a list of stores with their location as the key for each location
-var stores = {
+//object called allStores contains a list of allStores with their location as the key for each location
+var allStores = {
   firstAndPike : '',
   seaTacAirport: '',
   seattleCenter: '',
@@ -16,31 +16,14 @@ var stores = {
   alki: '',
 };
 
-function StoreGen (minimum, maximum, averages) {
+function Store (minimum, maximum, averages) {
   //Assigns each store location to an write/read variable
   this.minPerHour = minimum;//Assigns minPerHour key to corresponding value.
   this.maxPerHour = maximum; //Assigns mxnPerHour key to corresponding value
   this.avgPerCustomer = averages; //Assigns avgPerCustomer key to corresponding value
   this.opening = openHour; //Assigns each location an opening time
   this.closing = closeHour; //Assigns each location a closing time
-  this.cusPerHour = function () {
-    //generates a random number that is between the minPerHour and maxPerHour
-    return Math.floor(Math.random() * (this.maxPerHour - this.minPerHour) + this.minPerHour);
-  },
-  this.cookiesPerHour = function () {
-    return this.cusPerHour() * this.avgPerCustomer;
-  },
   this.dailySales = [],//Empty array that hold hourly sales
-  this.salesGen = function () {
-    //Generates 14 random numbers to append to dailySales
-    var total = 0;//Counter that becomes total of hourly sales
-    for (var n = 0; n < (this.closing - this.opening) + 1; n++) {
-      var hourlySales = Math.floor(this.cookiesPerHour());
-      this.dailySales.push(hourlySales);
-      total += hourlySales;
-    }
-    this.dailySales.push(total);//Pushes total to the end of the array
-  },
   //Creates a week object that will house each daily sales array
   this.weeklySales = {
     monday: '',
@@ -50,28 +33,51 @@ function StoreGen (minimum, maximum, averages) {
     friday: '',
     saturday: '',
     sunday: ''
-  },
-  this.weeklyGen = function () {
-    //runs dailySales function 7 times and defines each array one as a weeklySales value
-    for (var key in this.weeklySales) {
-      this.salesGen();
-      this.weeklySales[key] = (this.dailySales);
-      this.dailySales = [];
-    }
   };
-  this.weeklyGen();
 }
 
-var storeKeys = Object.keys(stores);
+Store.prototype.cusPerHour = function () {
+  //generates a random number that is between the minPerHour and maxPerHour
+  return Math.floor(Math.random() * (this.maxPerHour - this.minPerHour) + this.minPerHour);
+};
+
+Store.prototype.cookiesPerHour = function () {
+  return this.cusPerHour() * this.avgPerCustomer;
+};
+
+Store.prototype.salesGen = function () {
+  //Generates 14 random numbers to append to dailySales
+  var total = 0;//Counter that becomes total of hourly sales
+  for (var n = 0; n < (this.closing - this.opening) + 1; n++) {
+    var hourlySales = Math.floor(this.cookiesPerHour());
+    this.dailySales.push(hourlySales);
+    total += hourlySales;
+  }
+  this.dailySales.push(total);//Pushes total to the end of the array
+};
+
+Store.prototype.weeklyGen = function () {
+    //runs dailySales function 7 times and defines each array one as a weeklySales value
+  for (var day in this.weeklySales) {
+    this.salesGen();
+    this.weeklySales[day] = (this.dailySales);
+    this.dailySales = [];
+  }
+};
+
+
+
+var storeKeys = Object.keys(allStores);
 for (var i = 0; i < storeKeys.length; i++) {
-  stores[storeKeys[i]] = new StoreGen(mins[i], maxes[i], averages[i]);
+  allStores[storeKeys[i]] = new Store(mins[i], maxes[i], averages[i]);
+  allStores[storeKeys[i]].weeklyGen();
 }
 
 
 function postSales() {
-  //Sort through stores Objectes and creates sorted DOM elements for each
+  //Sort through allStores Objectes and creates sorted DOM elements for each
   //location, day and hour with corresponding sales
-  for (var keys in stores) {
+  for (var keys in allStores) {
     //creates a div that will house each list of days and hours
     var storeDiv = document.createElement('div');
     //title will hold the store name and display it at the top of the div
@@ -80,12 +86,12 @@ function postSales() {
     storeDiv.appendChild(title);
 
 
-    for (var days in stores[keys].weeklySales) {
+    for (var days in allStores[keys].weeklySales) {
       //h2 will hold each indiviual day. Week object for each lement is accessed and each day key is iterated through.
       var dayTitle = document.createElement('h2');
       dayTitle.innerHTML = days;
       storeDiv.appendChild(dayTitle);
-      var week = stores[keys].weeklySales;
+      var week = allStores[keys].weeklySales;
       var listStart = document.createElement('ul');
       listStart.style.outline = '1px solid black';
 
@@ -105,7 +111,7 @@ function postSales() {
     }
     document.body.appendChild(storeDiv);
   }
-  for (var i = 0; i < Object.keys(stores).length; i++) {
+  for (var i = 0; i < Object.keys(allStores).length; i++) {
     document.getElementsByTagName('div')[i].style.display = 'inline-block';
     document.getElementsByTagName('div')[i].style.outline = '1px solid black';
     document.getElementsByTagName('div')[i].style.width = '350px';
