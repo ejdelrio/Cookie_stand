@@ -1,0 +1,165 @@
+body {
+  background: url("http://moheban-ahlebeit.com/images/Cafe-Backgrounds/Cafe-Backgrounds-19.jpg");
+  background-size: auto;
+  background-repeat: no-repeat;
+}
+
+a {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+/* app styles */
+
+header {
+  position: fixed;
+  height: 100px;
+  width: 100%;
+  background: #bdd09f;
+  top: 0;
+  left: 0;
+}
+
+header div {
+  width: 960px;
+  margin: 0 auto;
+}
+
+header div img {
+  float: left;
+  height: 70px;
+  width: 150x;
+  margin-right: 50px;
+  background: #FF8C69;
+  border-radius: 500px;
+}
+
+nav ul li {
+  display: inline-block;
+  font-size: 25px;
+  margin-right: 70px;
+  margin-top: 45px;
+  font-family: 'Lobster', cursive;
+}
+
+main {
+  width: 970px;
+  height: 750px;
+  margin: 30px auto;
+  margin-top: 130px;
+  background: rgba(1, 1, 1, 0.5);
+}
+
+h1 {
+  font-size: 55px;
+  text-align: center;
+  color: white;
+  font-family: 'Courgette', cursive;
+}
+
+.featured_content {
+  width: 960px;
+  height: 275px;
+}
+
+.featured_content div {
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  width: 425px;
+  height:275px;
+  margin-left: 30px;
+}
+
+.featured_content >:first-child {
+  background: url("https://apatandapinch.files.wordpress.com/2014/05/dsc_0016.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.featured_content>:last-child {
+  margin-bottom: 5px;
+}
+
+.featured_content>:last-child p {
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-size: 23px;
+  top: 0;
+  z-index: 0;
+  font-family: Georgia;
+}
+
+.gallery ul {
+  margin: 0;
+  padding: 0;
+}
+
+.gallery ul li {
+  padding: 0;
+  display: inline-block;
+  width: 280px;
+  height: 280px;
+  background: white;
+  margin-left: 30px;
+  margin-top: 30px;
+}
+
+.gallery>ul>:first-child {
+  background: url("http://www.te-cafe.com/wp-content/uploads/cache-5e24465b588fd5dcd1d2035949ebb04a/2013/07/cup-of-coffee.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.gallery>ul>:last-child {
+  background: url("http://public.media.smithsonianmag.com/legacy_blog/espresso.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.gallery>ul>:nth-child(2) {
+  background: url("https://i.kinja-img.com/gawker-media/image/upload/s--9Y4mCdiV--/c_scale,fl_progressive,q_80,w_800/1494235991390551469.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+footer {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 200px;
+  background: #4D4C33;
+  opacity: 0.9;
+}
+
+.contact {
+  margin: 0px:auto;
+  padding: 0;
+}
+
+.contact>li {
+  display: inline-block;
+  height:200px;
+  width: 300px;
+  margin-left: 90px;
+  color: #D8D09B;
+}
+
+.contact li h2 {
+  font-size: 20px;
+  text-align: center;
+  font-family: serif;
+}
+
+.contact li ul {
+  margin: 0;
+  padding: 0;
+}
+
+.contact>li ul li {
+  text-align: center;
+}
