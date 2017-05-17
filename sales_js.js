@@ -50,7 +50,7 @@ Store.prototype.cookiesPerHour = function () {
 Store.prototype.salesGen = function () {
   //Generates 14 random numbers to append to dailySales
   var total = 0;//Counter that becomes total of hourly sales
-  for (var n = 0; n < (this.closing - this.opening) + 1; n++) {
+  for (var n = 0; n < (this.closing - this.opening); n++) {
     var hourlySales = Math.floor(this.cookiesPerHour());
     this.dailySales.push(hourlySales);
     total += hourlySales;
@@ -67,9 +67,6 @@ Store.prototype.weeklyGen = function () {
   }
 };
 
-
-Store.prototype.render = function () {};
-
 //Creates array of cookieStores keys
 var storeKeys = Object.keys(cookieStores);
 
@@ -80,43 +77,76 @@ for (var i = 0; i < storeKeys.length; i++) {
 
 }
 var days = Object.keys(cookieStores.firstAndPike.weeklySales);
-var tableDays = [];
+var tableDays = [[], [], [], [], [], []];
 
 
 function tableGen() {
   //Generates an empty table that store data can be appended to.
-  for (var i; i < days.length; i++) {
-    var container = document.createElement('div');
+  for (var i = 0; i < days.length; i++) {
     var dayTitle = document.createElement('h1');
+    var container = document.createElement('div');
     dayTitle.innerHTML = days[i];
-    console.log(days[i])
-    container.appended(dayTitle);
+    container.appendChild(dayTitle);
+
     var mainTable = document.createElement('table');
-    var tableHead = document.createElement('thead');
-    mainTable.appendChild(tableHead);
+    container.appendChild(mainTable);
+
+    var tableHeader = document.createElement('thead');
+    mainTable.appendChild(tableHeader);
+
     var tableBody = document.createElement('tbody');
-    tableDays.push(tableBody);
+    mainTable.appendChild(tableBody);
+
     var hourRow = document.createElement('tr');
+    tableBody.appendChild(hourRow);
+
     var blankCell = document.createElement('td');
     hourRow.appendChild(blankCell);
-    for (i = 0; i < (closeHour - openHour) + 1; i++) {
+    document.body.appendChild(container);
+    for (var n = 0; n < (closeHour - openHour) + 1; n++) {
       var tableTime = document.createElement('td');
-      if (i < 7) {
-        tableTime.innerHTML = (i + 6) + 'am: ';
-      } else if (i >= 7 && i <= (closeHour - openHour)-1) {
-        tableTime.innerHTML = (i - 6) + 'pm: ';
+      if (n < 7) {
+        tableTime.innerHTML = (n + 6) + 'am: ';
+      } else if (n >= 7 && n <= (closeHour - openHour)-1) {
+        tableTime.innerHTML = (n - 6) + 'pm: ';
       } else {
         tableTime.innerHTML = 'Total: ';
       }
       hourRow.appendChild(tableTime);
     }
-    document.body.appendChild(container);
+    for (n =0 ; n < storeKeys.length + 1; n++) {
+      var locationRow = document.createElement('tr');
+      tableBody.appendChild(locationRow);
+      tableDays[n].push(locationRow);
+
+      var locCell = document.createElement('td');
+      locationRow.appendChild(locCell);
+      locCell.innerHTML = storeKeys[n];
+    }
+    locCell.innerHTML = 'Total:';
   }
 }
 
 
 tableGen();
 
+Store.prototype.render = function () {
+  for (var i = 0; i < days.length; i++) {
+    for (var n = 0; n < tableDays.length; n++) {
+      var rowObject = tableDays[i][n];
+      var dayArray = this.weeklySales[days[i]];
+      var totalCounter = 0;
+      for (var l = 0; l < dayArray.length; l++) {
+        var hourCell = document.createElement('td');
+        hourCell.innerHTML = dayArray[l];
+        rowObject.appendChild(hourCell);
+      }
+    }
+  }
+};
+
+
+cookieStores.firstAndPike.render();
 // function tableGen() {
 //   //Function that generates Daily tables for the entire week
 //   //Tables have columns with hours and columns with locations
