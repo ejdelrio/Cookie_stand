@@ -1,5 +1,6 @@
 'use strict';
 //array of minimums sales in order of locations
+
 var openHour = 6; //var will be used to assign key value pairs, additionally, var will be uesed in for loops for DOM li elements
 var closeHour = 21;
 var mins = [23, 3, 11, 20, 2];
@@ -23,17 +24,8 @@ function Store (minimum, maximum, averages) {
   this.avgPerCustomer = averages; //Assigns avgPerCustomer key to corresponding value
   this.opening = openHour; //Assigns each location an opening time
   this.closing = closeHour; //Assigns each location a closing time
-  this.dailySales = [],//Empty array that hold hourly sales
+  this.dailySales = [];//Empty array that hold hourly sales
   //Creates a week object that will house each daily sales array
-  this.weeklySales = {
-    monday: '',
-    tuesday: '',
-    wednesday: '',
-    thursday: '',
-    friday: '',
-    saturday: '',
-    sunday: ''
-  };
 }
 
 Store.prototype.cusPerHour = function () {
@@ -48,112 +40,86 @@ Store.prototype.cookiesPerHour = function () {
 Store.prototype.salesGen = function () {
   //Generates 14 random numbers to append to dailySales
   var total = 0;//Counter that becomes total of hourly sales
-  for (var n = 0; n < (this.closing - this.opening) + 1; n++) {
+  for (var n = 0; n < (this.closing - this.opening); n++) {
     var hourlySales = Math.floor(this.cookiesPerHour());
-    this.dailySales.push(hourlySales);
     total += hourlySales;
+    var dataCell = document.createElement('td');
+    dataCell.innerHTML = hourlySales;
+    this.dailySales.push(dataCell);
   }
-  this.dailySales.push(total);//Pushes total to the end of the array
+  var totalCell = document.createElement('td');
+  totalCell.innerHTML = total;
+  this.dailySales.push(totalCell);
 };
 
-Store.prototype.weeklyGen = function () {
-    //runs dailySales function 7 times and defines each array one as a weeklySales value
-  for (var day in this.weeklySales) {
-    this.salesGen();
-    this.weeklySales[day] = (this.dailySales);
-    this.dailySales = [];
-  }
-};
 //Creates array of cookieStores keys
 var storeKeys = Object.keys(cookieStores);
+
 //Loops through keys and plugs them into cookieStores with corresponding values of mins, maxes and averages
 for (var i = 0; i < storeKeys.length; i++) {
   cookieStores[storeKeys[i]] = new Store(mins[i], maxes[i], averages[i]);
-  cookieStores[storeKeys[i]].weeklyGen(); //Calls weeklyGen to populate daily and hourly sales arrays
+  cookieStores[storeKeys[i]].salesGen(); //Calls weeklyGen to populate daily and hourly sales arrays
 }
 
-
-
+var tableRows = [];
 function tableGen() {
+  var salesHeader = document.createElement('h1');
+  var container = document.createElement('div');
+  salesHeader.innerHTML = 'Daily Sales';
+  container.appendChild(salesHeader);
+  //initial table declaration
+  var mainTable = document.createElement('table');
+  container.appendChild(mainTable);
+  //Empty table header
+  var tableHeader = document.createElement('thead');
+  mainTable.appendChild(tableHeader);
 
+  var tableBody = document.createElement('tbody');
+  mainTable.appendChild(tableBody);
 
-  var days = Object.keys(cookieStores.firstAndPike.weeklySales);
-  for (var n = 0; n < days.length; n++) {
-
-    var container = document.createElement('div');
-    var dayTitle = document.createElement('h1');
-
-    dayTitle.innerHTML = days[n];
-    container.appendChild(dayTitle);
-
-    var salesTable = document.createElement('table');
-    var tableHead = document.createElement('thead');
-    salesTable.appendChild(tableHead);
-    var hourRow = document.createElement('tr');
-    var blankTd = document.createElement('td');
-    blankTd.innerHTML = '';
-    hourRow.appendChild(blankTd);
-
-    for (i = 0; i < (closeHour - openHour) + 1; i++) {
-      var tableTime = document.createElement('td');
-      if (i < 7) {
-        tableTime.innerHTML = (i + 6) + 'am: ';
-      } else if (i >= 7 && i <= (closeHour - openHour)-1) {
-        tableTime.innerHTML = (i - 6) + 'pm: ';
-      } else {
-        tableTime.innerHTML = 'Total: ';
-      }
-      hourRow.appendChild(tableTime);
+  var hourRow = document.createElement('tr');
+  tableBody.appendChild(hourRow);
+  //Blank cell to fill top right corner
+  var blankCell = document.createElement('td');
+  hourRow.appendChild(blankCell);
+  document.body.appendChild(container);
+  for (var n = 0; n < (closeHour - openHour) + 1; n++) {
+    var tableTime = document.createElement('td');
+    if (n < 7) {
+      tableTime.innerHTML = (n + 6) + 'am: ';
+    } else if (n >= 7 && n <= (closeHour - openHour)-1) {
+      tableTime.innerHTML = (n - 6) + 'pm: ';
+    } else {
+      tableTime.innerHTML = 'Total: ';
     }
-
-
-    var tableBody = document.createElement('tableBody');
-    tableBody.appendChild(hourRow);
-
-
-    for (var x = 0; x < storeKeys.length; x ++) {
-      var tableRow = document.createElement('tr');
-      var nameRow = document.createElement('td');
-      nameRow.innerHTML = storeKeys[x];
-      tableRow.appendChild(nameRow);
-
-
-      for (i = 0; i < (closeHour - openHour) + 1; i++) {
-        var salesData = document.createElement('td');
-        salesData.innerHTML = cookieStores[storeKeys[x]].weeklySales[days[n]][i];
-        tableRow.appendChild(salesData);
-      }
-      tableBody.appendChild(tableRow);
-    }
-    var totalRow = document.createElement('tr');
-    var tableTotal = document.createElement('td');
-    tableTotal.innerHTML = 'Total';
-
-    totalRow.appendChild(tableTotal);
-    var finalTotal = 0;
-    for (i = 0; i < 15; i++) {
-      var totalCell = document.createElement('td');
-      for (var l = 0; l < storeKeys.length; l++) {
-        var totalCounter = 0;
-        for (var hour in cookieStores[storeKeys[l]].weeklySales) {
-          totalCounter += cookieStores[storeKeys[l]].weeklySales[hour][i];
-
-        }
-      }
-      finalTotal += totalCounter;
-      totalCell.innerHTML = totalCounter;
-      totalRow.appendChild(totalCell);
-    }
-    var finalCell = document.createElement('td');
-    finalCell.innerHTML = finalTotal;
-    totalRow.appendChild(finalCell);
-    tableBody.appendChild(totalRow);
-
-
-    salesTable.appendChild(tableBody);
-    container.appendChild(salesTable);
-    document.body.appendChild(container);
+    hourRow.appendChild(tableTime);
   }
+  for (n =0 ; n < storeKeys.length + 1; n++) {
+    var locationRow = document.createElement('tr');
+    tableBody.appendChild(locationRow);
+    tableRows.push(locationRow);
+
+    var locCell = document.createElement('td');
+    locationRow.appendChild(locCell);
+    locCell.innerHTML = storeKeys[n];
+  }
+  locCell.innerHTML = 'Total:';
 }
 
 tableGen();
+
+Store.prototype.render = function (index) {
+  //function that recives a specific row index and appends daily sales td elements to tr
+  for (var i = 0; i < this.dailySales.length; i++) {
+    tableRows[index].appendChild(this.dailySales[i]);
+  }
+};
+
+//Iterates through each table row and calls object method to append sales
+for (i = 0; i < tableRows.length - 1; i++) {
+  cookieStores[storeKeys[i]].render(i);
+}
+
+for (i = 0; i < cookieStores.firstAndPike.dailySales.length; i++) {
+  
+}
