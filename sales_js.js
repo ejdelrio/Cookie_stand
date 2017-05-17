@@ -44,25 +44,29 @@ Store.prototype.salesGen = function () {
 };
 
 Store.prototype.render = function () {
+  //Functions creates table row and appends joined dailSales array
+  //table row is then appended to tableBody
   var storeRow = document.createElement('tr');
   storeRow.innerHTML = this.dailySales.join('');
   tableBody.appendChild(storeRow);
 };
 
 function createStore(e) {
+  //prevents submit page from triggering html page reload
   e.preventDefault();
-
+  //assigns user inputs to corresponding variables
   var name = event.target.store_location.value;
   var minimum = parseInt(event.target.min_customer.value);
   var maximum = parseInt(event.target.max_customer.value);
   var avg = parseInt(event.target.avg_sales.value);
-
+  //plugs variables into object constructor and temporary object
   var tempStore = new Store(name, minimum, maximum, avg);
-
+  //Calles object method to populate daily sales arrays
+  //calls render method to append td elements to table
   tempStore.salesGen();
   tempStore.render();
-
+  //Resets form input fields
   form.reset();
 }
-
+//Add's event listener to form that runs createStore function
 form.addEventListener('submit', createStore);
