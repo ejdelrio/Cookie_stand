@@ -82,14 +82,15 @@ var tableDays = [];
 function tableGen() {
   //Generates an empty table that store data can be appended to.
   for (var i = 0; i < days.length; i++) {
+    //creates div with h1 header for each day
     var dayTitle = document.createElement('h1');
     var container = document.createElement('div');
     dayTitle.innerHTML = days[i];
     container.appendChild(dayTitle);
-
+    //initial table declaration
     var mainTable = document.createElement('table');
     container.appendChild(mainTable);
-
+    //Empty table header
     var tableHeader = document.createElement('thead');
     mainTable.appendChild(tableHeader);
 
@@ -98,7 +99,7 @@ function tableGen() {
 
     var hourRow = document.createElement('tr');
     tableBody.appendChild(hourRow);
-
+    //Blank cell to fill top right corner
     var blankCell = document.createElement('td');
     hourRow.appendChild(blankCell);
     document.body.appendChild(container);
@@ -128,7 +129,10 @@ function tableGen() {
 tableGen();
 
 Store.prototype.render = function (target, day) {
-  var counter = 0;
+  //Method that recieves a specific table day and row. Populates it with
+  // this.weeklySales matching day
+  var counter = 0; //Counter to accumilate the total
+
   for (var i = 0; i < this.weeklySales[day].length - 1; i++) {
     var hourCell = document.createElement('td');
     hourCell.innerHTML = this.weeklySales[day][i];
@@ -140,6 +144,8 @@ Store.prototype.render = function (target, day) {
   target.appendChild(totalCell);
 };
 
+//Loops through table rows. If table row name is the same as location,
+//Days are looped through and arrays are pushed into each row with a matching name
 for (i = 0; i < tableDays.length; i++) {
   for (var n = 0; n < storeKeys.length; n++){
     var dayCounter = 0;
