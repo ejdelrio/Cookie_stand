@@ -120,6 +120,13 @@ for (i = 0; i < tableRows.length - 1; i++) {
   cookieStores[storeKeys[i]].render(i);
 }
 
+
 for (i = 0; i < cookieStores.firstAndPike.dailySales.length; i++) {
-  
+  var hourTotal = 0;
+  for (var n = 0; n < storeKeys.length; n++) {
+    hourTotal += parseInt(cookieStores[storeKeys[n]].dailySales[i].innerHTML);
+  }
+  var totalCol = document.createElement('td');
+  totalCol.innerHTML = hourTotal;
+  tableRows[tableRows.length - 1].appendChild(totalCol);
 }
