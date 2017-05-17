@@ -34,7 +34,7 @@ header div img {
   width: 150x;
   margin-right: 50px;
   background: #FF8C69;
-  border-radius: 200px;
+  border-radius: 500px;
 }
 
 nav ul li {
@@ -46,7 +46,7 @@ nav ul li {
 }
 
 main {
-  width: 960px;
+  width: 970px;
   height: 750px;
   margin: 30px auto;
   margin-top: 130px;
