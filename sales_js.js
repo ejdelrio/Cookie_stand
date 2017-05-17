@@ -16,6 +16,16 @@ var cookieStores = {
   alki: '',
 };
 
+function Week () {
+  this.monday = [];
+  this.tuesday = [];
+  this.wednesday= [];
+  this. thursday = [];
+  this.friday = [];
+  this.saturday = [];
+  this.sunday = [];
+}
+
 function Store (minimum, maximum, averages) {
   //Store constructor that creates new store Objects
   this.minPerHour = minimum;//Assigns minPerHour key to corresponding value.
@@ -25,15 +35,7 @@ function Store (minimum, maximum, averages) {
   this.closing = closeHour; //Assigns each location a closing time
   this.dailySales = [],//Empty array that hold hourly sales
   //Creates a week object that will house each daily sales array
-  this.weeklySales = {
-    monday: '',
-    tuesday: '',
-    wednesday: '',
-    thursday: '',
-    friday: '',
-    saturday: '',
-    sunday: ''
-  };
+  this.weeklySales = new Week();
 }
 
 Store.prototype.cusPerHour = function () {
@@ -60,43 +62,43 @@ Store.prototype.weeklyGen = function () {
     //runs dailySales function 7 times and defines each array one as a weeklySales value
   for (var day in this.weeklySales) {
     this.salesGen();
-    this.weeklySales[day] = (this.dailySales);
+    this.weeklySales[day] = this.dailySales;
     this.dailySales = [];
   }
 };
+
+
+Store.prototype.render = function () {};
+
 //Creates array of cookieStores keys
 var storeKeys = Object.keys(cookieStores);
+
 //Loops through keys and plugs them into cookieStores with corresponding values of mins, maxes and averages
 for (var i = 0; i < storeKeys.length; i++) {
   cookieStores[storeKeys[i]] = new Store(mins[i], maxes[i], averages[i]);
   cookieStores[storeKeys[i]].weeklyGen(); //Calls weeklyGen to populate daily and hourly sales arrays
-}
 
+}
+var days = Object.keys(cookieStores.firstAndPike.weeklySales);
+var tableDays = [];
 
 
 function tableGen() {
-  //Function that generates Daily tables for the entire week
-  //Tables have columns with hours and columns with locations
-  // Each cell indicates sales per hour per location
-  var days = Object.keys(cookieStores.firstAndPike.weeklySales);
-  for (var n = 0; n < days.length; n++) {
-    //creates div container for each tableGen
-    //And a title header for the day
+  //Generates an empty table that store data can be appended to.
+  for (var i; i < days.length; i++) {
     var container = document.createElement('div');
     var dayTitle = document.createElement('h1');
-    //Inserts the day title header
-    dayTitle.innerHTML = days[n];
-    container.appendChild(dayTitle);
-    //Creates the initial table and thead
-    var salesTable = document.createElement('table');
+    dayTitle.innerHTML = days[i];
+    console.log(days[i])
+    container.appended(dayTitle);
+    var mainTable = document.createElement('table');
     var tableHead = document.createElement('thead');
-    salesTable.appendChild(tableHead);
-    //creates initial row to house hours and a blank cell to go at the corner
+    mainTable.appendChild(tableHead);
+    var tableBody = document.createElement('tbody');
+    tableDays.push(tableBody);
     var hourRow = document.createElement('tr');
-    var blankTd = document.createElement('td');
-    blankTd.innerHTML = '';
-    hourRow.appendChild(blankTd); //Append blank cell to initial row
-    //Itereates through the difference in hours and appends td element with time values
+    var blankCell = document.createElement('td');
+    hourRow.appendChild(blankCell);
     for (i = 0; i < (closeHour - openHour) + 1; i++) {
       var tableTime = document.createElement('td');
       if (i < 7) {
@@ -108,86 +110,36 @@ function tableGen() {
       }
       hourRow.appendChild(tableTime);
     }
-
-    //Creates the initial body and adds the row of hour headers
-    var tableBody = document.createElement('tableBody');
-    tableBody.appendChild(hourRow);
-
-    //Creates initial rows for location sales. Uses the array of store keys to insert the object names
-    for (var x = 0; x < storeKeys.length; x ++) {
-      var tableRow = document.createElement('tr');
-      var nameRow = document.createElement('td');
-      nameRow.innerHTML = storeKeys[x];
-      tableRow.appendChild(nameRow);
-
-      //Iterates through wekkly->day arrays and inserts the value by hour
-      for (i = 0; i < (closeHour - openHour) + 1; i++) {
-        var salesData = document.createElement('td');
-        salesData.innerHTML = cookieStores[storeKeys[x]].weeklySales[days[n]][i]; //Insert data in td element
-        tableRow.appendChild(salesData);
-      }
-      //Appends row of location sales into table body
-      tableBody.appendChild(tableRow);
-    }
-    var totalRow = document.createElement('tr');
-    var tableTotal = document.createElement('td');
-    tableTotal.innerHTML = 'Total';
-    // Iterates through each locations daily and hourly indexes and appends the sumation of each stores hourly value
-    totalRow.appendChild(tableTotal);
-    var finalTotal = 0;
-    for (i = 0; i < 15; i++) {
-      var totalCell = document.createElement('td');
-      for (var l = 0; l < storeKeys.length; l++) {
-        var totalCounter = 0;
-        for (var hour in cookieStores[storeKeys[l]].weeklySales) {
-          totalCounter += cookieStores[storeKeys[l]].weeklySales[hour][i];
-
-        }
-      }
-      //Increments an external counter to track total sales for the day for all locations
-      finalTotal += totalCounter;
-      totalCell.innerHTML = totalCounter;
-      totalRow.appendChild(totalCell);
-    }
-    var finalCell = document.createElement('td');
-    finalCell.innerHTML = finalTotal;
-    totalRow.appendChild(finalCell);
-    tableBody.appendChild(totalRow);
-
-
-    salesTable.appendChild(tableBody);
-    container.appendChild(salesTable);
     document.body.appendChild(container);
   }
 }
 
+
 tableGen();
 
-
-
-
-
-
 // function tableGen() {
-//
-//
+//   //Function that generates Daily tables for the entire week
+//   //Tables have columns with hours and columns with locations
+//   // Each cell indicates sales per hour per location
 //   var days = Object.keys(cookieStores.firstAndPike.weeklySales);
 //   for (var n = 0; n < days.length; n++) {
-//
+//     //creates div container for each tableGen
+//     //And a title header for the day
 //     var container = document.createElement('div');
 //     var dayTitle = document.createElement('h1');
-//
+//     //Inserts the day title header
 //     dayTitle.innerHTML = days[n];
 //     container.appendChild(dayTitle);
-//
+//     //Creates the initial table and thead
 //     var salesTable = document.createElement('table');
 //     var tableHead = document.createElement('thead');
 //     salesTable.appendChild(tableHead);
+//     //creates initial row to house hours and a blank cell to go at the corner
 //     var hourRow = document.createElement('tr');
 //     var blankTd = document.createElement('td');
 //     blankTd.innerHTML = '';
-//     hourRow.appendChild(blankTd);
-//
+//     hourRow.appendChild(blankTd); //Append blank cell to initial row
+//     //Itereates through the difference in hours and appends td element with time values
 //     for (i = 0; i < (closeHour - openHour) + 1; i++) {
 //       var tableTime = document.createElement('td');
 //       if (i < 7) {
@@ -200,29 +152,30 @@ tableGen();
 //       hourRow.appendChild(tableTime);
 //     }
 //
-//
+//     //Creates the initial body and adds the row of hour headers
 //     var tableBody = document.createElement('tableBody');
 //     tableBody.appendChild(hourRow);
 //
-//
+//     //Creates initial rows for location sales. Uses the array of store keys to insert the object names
 //     for (var x = 0; x < storeKeys.length; x ++) {
 //       var tableRow = document.createElement('tr');
 //       var nameRow = document.createElement('td');
 //       nameRow.innerHTML = storeKeys[x];
 //       tableRow.appendChild(nameRow);
 //
-//
+//       //Iterates through wekkly->day arrays and inserts the value by hour
 //       for (i = 0; i < (closeHour - openHour) + 1; i++) {
 //         var salesData = document.createElement('td');
-//         salesData.innerHTML = cookieStores[storeKeys[x]].weeklySales[days[n]][i];
+//         salesData.innerHTML = cookieStores[storeKeys[x]].weeklySales[days[n]][i]; //Insert data in td element
 //         tableRow.appendChild(salesData);
 //       }
+//       //Appends row of location sales into table body
 //       tableBody.appendChild(tableRow);
 //     }
 //     var totalRow = document.createElement('tr');
 //     var tableTotal = document.createElement('td');
 //     tableTotal.innerHTML = 'Total';
-//
+//     // Iterates through each locations daily and hourly indexes and appends the sumation of each stores hourly value
 //     totalRow.appendChild(tableTotal);
 //     var finalTotal = 0;
 //     for (i = 0; i < 15; i++) {
@@ -234,6 +187,7 @@ tableGen();
 //
 //         }
 //       }
+//       //Increments an external counter to track total sales for the day for all locations
 //       finalTotal += totalCounter;
 //       totalCell.innerHTML = totalCounter;
 //       totalRow.appendChild(totalCell);
