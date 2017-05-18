@@ -68,15 +68,22 @@ function alreadyExist() {
 alreadyExist();
 
 function totalGen () {
-  var finalTotal = 0;
+  //Generates a row that shows totals for each hour
+  var finalTotal = 0; //Counter for total sales of all locations
+  //row element to be appended to table body
   var totalRow = document.createElement('tr');
-  var totalArray = ['<td>Total</td>'];
-  for (var i = 0; i < objectArray[0].cleanArray.length; i++) {
+  var totalArray = ['<td>Total</td>']; //array will hold hourly totals
+  //Loops through every hour
+  for (var i = 0; i < closeHour - openHour; i++) {
+    //total counter adds each location hour index
     var totalCounter = 0;
+    //loops through each locations clean hour sales array
     for (var n = 0; n < objectArray.length; n++) {
       totalCounter += objectArray[n].cleanArray[i];
     }
+    //Collects total of each hour
     finalTotal += totalCounter;
+    //Pushes total to array for each hour
     totalArray.push('<td>' + totalCounter + '</td>');
   }
   totalArray.push('<td>' + finalTotal + '</td>');
@@ -85,12 +92,6 @@ function totalGen () {
 }
 
 totalGen();
-
-
-
-
-
-
 
 function createStore(e) {
   //prevents submit page from triggering html page reload
@@ -101,15 +102,17 @@ function createStore(e) {
   var maximum = parseInt(event.target.max_customer.value);
   var avg = parseInt(event.target.avg_sales.value);
   //plugs variables into object constructor and temporary object
+  //pushes variable to array for use on totalGen() function
   var tempStore = new Store(name, minimum, maximum, avg);
   objectArray.push(tempStore);
-  //Calles object method to populate daily sales arrays
-  //calls render method to append td elements to table
+  //Deletes total row from table
   document.getElementById('table_body').deleteRow(objectArray.length - 1);
+  //Calles object method to populate daily sales arrays
   tempStore.salesGen();
+  //calls render method to append td elements to table
   tempStore.render();
   //Resets form input fields
-
+  //recreates total row with new values added
   totalGen();
   form.reset();
 }
