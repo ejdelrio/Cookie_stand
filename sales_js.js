@@ -14,7 +14,6 @@ for (var i = 0; i < (closeHour - openHour) + 1; i++) {
   hourlyTotals.push(0);
 }
 
-
 var tableBody = document.createElement('tbody');
 var form = document.getElementById('store_entry');
 var cellForm = document.getElementById('cell_select');
@@ -161,21 +160,23 @@ function createStore(e) {
 
 function changeCell(e) {
   e.preventDefault();
+  //Messy but functional :D
   var rowValue = event.target.location.value;
   var colValue = event.target.time.value;
   var newCell = event.target.new_value.value;
-  var selectedRow = tableBody.getElementsByTagName('tr')[parseInt(rowValue)];
-  console.log(selectedRow);
+  var selectedRow = tableBody.getElementsByTagName('tr')[rowValue];
+  var selectedCol = selectedRow.getElementsByTagName('td');
+  var total = selectedCol[selectedCol.length - 1].innerHTML;
+  var oldValue = selectedCol[colValue].innerHTML;
+  total -= oldValue;
+  total += parseInt(newCell);
+  selectedCol[selectedCol.length - 1].innerHTML = total;
+  selectedCol[colValue].innerHTML = newCell;
+
+  //console.log(selectedRow);
   //console.log(newCell);
   form.reset();
 }
-
-
-
-
-
-
-
 //Add's event listener to form that runs createStore function
 form.addEventListener('submit', createStore);
 cellForm.addEventListener('submit', changeCell);
