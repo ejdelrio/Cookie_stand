@@ -31,38 +31,26 @@
     <form id="cell_select">
       <fieldset>
         <label for="row_select">Time:</label>
-        <input type="text" name="time" placeholder="Enter Time" required>
+        <select name="time" required>
+        </select>
       </fieldset>
 
       <fieldset>
-        <label for="store_loc">Select Location</label>
-        <input type="text" name="location" placeholder="Select Location" required>
+        <label for="col_select">Time:</label>
+        <select name="location" required>
+        </select>
       </fieldset>
 
-      <button type="submit" id="submit-btn">Add Store</button>
+      <fieldset>
+        <label for="new_value">New Value</label>
+        <input type="text" name="new_value" placeholder="Enter the new cell value." required>
+      </fieldset>
+
+
+      <button type="submit" id="submit_cell">Enter Value</button>
+      
     </form>
-    <table>
-      <thead>
-        <td>Location</td>
-        <td>6 am</td>
-        <td>7 am</td>
-        <td>8 am</td>
-        <td>9 am</td>
-        <td>10 am</td>
-        <td>11 am</td>
-        <td>12 am</td>
-        <td>1 pm</td>
-        <td>2 pm</td>
-        <td>3 pm</td>
-        <td>4 pm</td>
-        <td>5 pm</td>
-        <td>6 pm</td>
-        <td>7 pm</td>
-        <td>8 pm</td>
-        <td>total</td>
-      </thead>
-      <tbody id='table_body'>
-      </tbody>
+    <table id="table_head">
     </table>
   </body>
   <script src="sales_js.js"></script>
