@@ -102,9 +102,10 @@ function createStore(e) {
   var avg = parseInt(event.target.avg_sales.value);
   //plugs variables into object constructor and temporary object
   var tempStore = new Store(name, minimum, maximum, avg);
+  objectArray.push(tempStore);
   //Calles object method to populate daily sales arrays
   //calls render method to append td elements to table
-  document.getElementById('table_body').deleteRow(objectArray.length);
+  document.getElementById('table_body').deleteRow(objectArray.length - 1);
   tempStore.salesGen();
   tempStore.render();
   //Resets form input fields
