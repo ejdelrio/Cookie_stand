@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="sales_style.css">
   </head>
   <body>
-    <form id="Store Entry">
+    <form id="store_entry">
       <fieldset>
         <label for="store_name">Store Location</label>
         <input type="text" name="store_location" placeholder="Enter Location" required>
@@ -25,7 +25,20 @@
         <label for="Average Cookie Sales">Average Cookie Sales</label>
         <input type="text" name="avg_sales" placeholder="Enter Average Cookie Sales" required>
       </fieldset>
-      
+
+      <button type="submit" id="submit-btn">Add Store</button>
+    </form>
+    <form id="cell_select">
+      <fieldset>
+        <label for="row_select">Time:</label>
+        <input type="text" name="time" placeholder="Enter Time" required>
+      </fieldset>
+
+      <fieldset>
+        <label for="store_loc">Select Location</label>
+        <input type="text" name="location" placeholder="Select Location" required>
+      </fieldset>
+
       <button type="submit" id="submit-btn">Add Store</button>
     </form>
     <table>

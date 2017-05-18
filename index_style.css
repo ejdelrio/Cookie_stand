@@ -58,6 +58,16 @@ main {
   background: rgba(1, 1, 1, 0.5);
 }
 
+main * {
+  opacity: 0;
+  transition: 2s all;
+}
+
+main * {
+  opacity: 1;
+}
+
+
 h1 {
   font-size: 55px;
   text-align: center;
