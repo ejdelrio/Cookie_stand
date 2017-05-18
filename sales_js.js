@@ -1,10 +1,12 @@
 'use strict';
 //array of minimums sales in order of locations
-// var mins = [23, 3, 11, 20, 2];
-// var maxes = [64, 28, 38, 38, 16];
-// var averages = [6.3, 1.2, 3.7, 2.3, 4.6];
+var mins = [23, 3, 11, 20, 2];
+var maxes = [64, 28, 38, 38, 16];
+var averages = [6.3, 1.2, 3.7, 2.3, 4.6];
+var names = ['First and Pike', 'Seatac Airport', 'Seattle Center', 'Capital Hill', 'Alki'];
 var openHour = 6; //var will be used to assign key value pairs, additionally, var will be uesed in for loops for DOM li elements
 var closeHour = 21;
+var newNames = [];
 
 var tableBody = document.getElementById('table_body');
 var form = document.getElementById('Store Entry');
@@ -19,7 +21,8 @@ function Store (storeLocation, minimum, maximum, averages) {
   this.avgPerCustomer = averages; //Assigns avgPerCustomer key to corresponding value
   this.opening = openHour; //Assigns each location an opening time
   this.closing = closeHour; //Assigns each location a closing time
-  this.dailySales = ['<td>' + storeLocation + '</td>'];//Empty array that hold hourly sales
+  this.dailySales = ['<td>' + storeLocation + '</td>'];
+  newNames.push(storeLocation);//Empty array that hold hourly sales
   //Creates a week object that will house each daily sales array
 }
 
@@ -48,8 +51,22 @@ Store.prototype.render = function () {
   //table row is then appended to tableBody
   var storeRow = document.createElement('tr');
   storeRow.innerHTML = this.dailySales.join('');
-  tableBody.appendChild(storeRow);
+  var trArray = document.getElementsByTagName('tr');
+  console.log(storeRow)
+  console.log(trArray);
+  conosle.log(trArray[trArray.length])
 };
+
+function alreadyExist() {
+  for (var i = 0; i < names.length; i++) {
+    var tempName = new Store(names[i], mins[i], maxes[i], averages[i]);
+    tempName.salesGen();
+    tempName.render();
+  }
+}
+
+alreadyExist();
+
 
 function createStore(e) {
   //prevents submit page from triggering html page reload
