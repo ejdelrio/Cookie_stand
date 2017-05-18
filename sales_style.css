@@ -419,3 +419,15 @@ td {
 
   border: 1px solid black;
 }
+
+input[type="text"] {
+  padding: 5px;
+  margin-left: 10px;
+  border: solid 1px black;
+  border-radius: 5px;
+}
+
+input[type="text"]:focus {
+  background: #000;
+  color: #fff;
+}

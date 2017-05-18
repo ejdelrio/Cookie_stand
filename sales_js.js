@@ -13,11 +13,8 @@ for (var i = 0; i < (closeHour - openHour) + 1; i++) {
   hourlyTotals.push(0);
 }
 
-
 var tableBody = document.getElementById('table_body');
 var form = document.getElementById('Store Entry');
-//Array of average sales per customer in order
-//object called cookieStores contains a list of cookieStores with their location as the key for each location
 
 function Store (storeLocation, minimum, maximum, averages) {
   //Store constructor that creates new store Objects
@@ -42,7 +39,7 @@ Store.prototype.cookiesPerHour = function () {
 };
 
 Store.prototype.salesGen = function () {
-  //Generates 14 random numbers to append to dailySales
+  //Generates random numbers to append to dailySales, 1 for every hour of operation and a total
   var total = 0;//Counter that becomes total of hourly sales
   for (var n = 0; n < (this.closing - this.opening); n++) {
     var hourlySales = Math.floor(this.cookiesPerHour());
@@ -95,7 +92,6 @@ function createStore(e) {
   var maximum = parseInt(event.target.max_customer.value);
   var avg = parseInt(event.target.avg_sales.value);
   //plugs variables into object constructor and temporary object
-  //pushes variable to array for use on totalGen() function
   var tempStore = new Store(name, minimum, maximum, avg);
   //Deletes total row from table
   var rowLength = document.getElementsByTagName('tr').length;
@@ -104,10 +100,9 @@ function createStore(e) {
   tempStore.salesGen();
   //calls render method to append td elements to table
   tempStore.render();
-  //Resets form input fields
   //recreates total row with new values added
   totalGen();
-  form.reset();
+  form.reset();//Resets form input fields
 }
 //Add's event listener to form that runs createStore function
 form.addEventListener('submit', createStore);
