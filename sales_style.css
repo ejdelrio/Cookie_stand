@@ -1,3 +1,6 @@
+
+
+=======
 /*! normalize.css v2.1.0 | MIT License | git.io/normalize */
 
 /* ==========================================================================
@@ -401,6 +404,7 @@ table {
 
 
 /* global styles */
+
 * {
   font-family: Verdana;
 }
@@ -411,5 +415,7 @@ thead {
 
 td {
   padding: 20px;
+  margin: 20px;
+
   border: 1px solid black;
 }
