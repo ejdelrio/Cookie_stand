@@ -6,7 +6,7 @@ var averages = [6.3, 1.2, 3.7, 2.3, 4.6];
 var names = ['First and Pike', 'Seatac Airport', 'Seattle Center', 'Capital Hill', 'Alki'];
 var openHour = 6; //var will be used to assign key value pairs, additionally, var will be uesed in for loops for DOM li elements
 var closeHour = 21;
-var newNames = [];
+var objectArray = [];
 
 var tableBody = document.getElementById('table_body');
 var form = document.getElementById('Store Entry');
@@ -22,7 +22,8 @@ function Store (storeLocation, minimum, maximum, averages) {
   this.opening = openHour; //Assigns each location an opening time
   this.closing = closeHour; //Assigns each location a closing time
   this.dailySales = ['<td>' + storeLocation + '</td>'];
-  newNames.push(storeLocation);//Empty array that hold hourly sales
+  this.cleanArray = [];
+  //Empty array that hold hourly sales
   //Creates a week object that will house each daily sales array
 }
 
@@ -40,6 +41,7 @@ Store.prototype.salesGen = function () {
   var total = 0;//Counter that becomes total of hourly sales
   for (var n = 0; n < (this.closing - this.opening); n++) {
     var hourlySales = Math.floor(this.cookiesPerHour());
+    this.cleanArray.push(hourlySales);
     total += hourlySales;
     this.dailySales.push('<td>' + hourlySales + '</td>');
   }
@@ -51,10 +53,7 @@ Store.prototype.render = function () {
   //table row is then appended to tableBody
   var storeRow = document.createElement('tr');
   storeRow.innerHTML = this.dailySales.join('');
-  var trArray = document.getElementsByTagName('tr');
-  console.log(storeRow)
-  console.log(trArray);
-  conosle.log(trArray[trArray.length])
+  tableBody.appendChild(storeRow);
 };
 
 function alreadyExist() {
@@ -62,10 +61,35 @@ function alreadyExist() {
     var tempName = new Store(names[i], mins[i], maxes[i], averages[i]);
     tempName.salesGen();
     tempName.render();
+    objectArray.push(tempName);
   }
 }
 
 alreadyExist();
+
+function totalGen () {
+  var finalTotal = 0;
+  var totalRow = document.createElement('tr');
+  var totalArray = ['<td>Total</td>'];
+  for (var i = 0; i < objectArray[0].cleanArray.length; i++) {
+    var totalCounter = 0;
+    for (var n = 0; n < objectArray.length; n++) {
+      totalCounter += objectArray[n].cleanArray[i];
+    }
+    finalTotal += totalCounter;
+    totalArray.push('<td>' + totalCounter + '</td>');
+  }
+  totalArray.push('<td>' + finalTotal + '</td>');
+  totalRow.innerHTML = totalArray.join('');
+  tableBody.appendChild(totalRow);
+}
+
+totalGen();
+
+
+
+
+
 
 
 function createStore(e) {
@@ -80,9 +104,12 @@ function createStore(e) {
   var tempStore = new Store(name, minimum, maximum, avg);
   //Calles object method to populate daily sales arrays
   //calls render method to append td elements to table
+  document.getElementById('table_body').deleteRow(objectArray.length);
   tempStore.salesGen();
   tempStore.render();
   //Resets form input fields
+
+  totalGen();
   form.reset();
 }
 //Add's event listener to form that runs createStore function
