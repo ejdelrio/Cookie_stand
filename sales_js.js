@@ -168,9 +168,10 @@ function changeCell(e) {
   selectedCol[colValue].innerHTML = newCell;
   //console.log(rowLength);
   ///console.log(objectCounter);
+  hourlyTotals[colValue] += newCell - oldValue; //updates relative index of hourlyTotals array
+  hourlyTotals[hourlyTotals.length-1] += newCell - oldValue; //updates final index of hourlyTotals with new totals
+  //deletes total row and recreates it with new totals using totalGen().
   tableBody.deleteRow(objectCounter);
-  hourlyTotals[colValue] += newCell - oldValue;
-  hourlyTotals[hourlyTotals.length-1] += newCell - oldValue;
   totalGen();
   //console.log(hourlyTotals[colValue]);
   //console.log(newCell);
