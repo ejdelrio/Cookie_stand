@@ -154,14 +154,13 @@ function changeCell(e) {
   //Messy but functional :D
   //Recieves selected row and column, then takes text input and inserts innerHTML
   //Updates hourlyTotal array at selected column and the final value of hourlyTotals
-  var colValue = event.target.time.value;
-  var newCell = parseInt(event.target.new_value.value);
-  var selectedRow = tableBody.getElementsByTagName('tr')[event.target.location.value];
-  var selectedCol = selectedRow.getElementsByTagName('td');
-  var total = selectedCol[selectedCol.length - 1].innerHTML;
-  var oldValue = parseInt(selectedCol[colValue].innerHTML);
-  total -= oldValue;
-  total += newCell;
+  var colValue = event.target.time.value; //value of time dropdown menu
+  var newCell = parseInt(event.target.new_value.value); //text input value
+  var selectedRow = tableBody.getElementsByTagName('tr')[event.target.location.value]; //selects table row using value of locations selector
+  var selectedCol = selectedRow.getElementsByTagName('td'); //selects specific cell in tr using the colValue as the index
+  var total = selectedCol[selectedCol.length - 1].innerHTML; //Assigns final td of selected row to var total
+  var oldValue = parseInt(selectedCol[colValue].innerHTML);//Assigns current td innerHTML to var oldValue.
+  total += newCell - oldValue; //subtracts current value from total value and adds new value from input field
   selectedCol[selectedCol.length - 1].innerHTML = total;
   selectedCol[colValue].innerHTML = newCell;
   var rowLength = document.getElementsByTagName('tr').length;
