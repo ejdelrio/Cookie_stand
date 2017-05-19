@@ -425,7 +425,6 @@ form {
 
 form:hover {
   border-radius: 50px;
-  transform: rotate(360deg);
 }
 
 form * {
@@ -460,6 +459,14 @@ thead td{
 tr>:nth-child(1) {
   background: #4D4C33;
   color: white;
+}
+
+input {
+  margin-top: 10px;
+}
+
+select {
+  margin-top: 15px;
 }
 
 input[type="text"] {
@@ -498,6 +505,7 @@ input[type="text"]:focus {
   color: white;
   border: 1px solid black;
   margin-bottom: 5px;
+  margin-top: 65px;
 }
 
 #submit_cell:hover {
@@ -508,4 +516,12 @@ input[type="text"]:focus {
 #submit-btn:hover {
   background: black;
   color: white;
+}
+
+button {
+  transition: 1s all;
+}
+
+button:hover {
+  transform: rotate(360deg);
 }

@@ -112,7 +112,7 @@ function alreadyExist() {
 alreadyExist();
 
 function totalGen () {
-  //uses hourlyTotals to create a row of totals that is appended to table
+  //uses hourlyTotals array to create a row of totals that is appended to table
   var totalArray = [hourlyTotals[0]];
   var totalRow = document.createElement('tr');
   for (var i = 1; i < hourlyTotals.length; i++){
@@ -152,24 +152,28 @@ function createStore(e) {
 function changeCell(e) {
   e.preventDefault();
   //Messy but functional :D
-  var rowValue = event.target.location.value;
-  var colValue = event.target.time.value;
-  var newCell = parseInt(event.target.new_value.value);
-  var selectedRow = tableBody.getElementsByTagName('tr')[rowValue];
-  var selectedCol = selectedRow.getElementsByTagName('td');
-  var total = selectedCol[selectedCol.length - 1].innerHTML;
-  var oldValue = parseInt(selectedCol[colValue].innerHTML);
-  total -= oldValue;
-  total += parseInt(newCell);
+  //Recieves selected row and column, then takes text input and inserts innerHTML
+  //Updates hourlyTotal array at selected column and the final value of hourlyTotals
+  var colValue = event.target.time.value; //value of time dropdown menu
+  var newCell = parseInt(event.target.new_value.value); //text input value
+  var selectedRow = tableBody.getElementsByTagName('tr')[event.target.location.value]; //selects table row using value of locations selector
+  var selectedCol = selectedRow.getElementsByTagName('td'); //selects specific cell in tr using the colValue as the index
+  var total = parseInt(selectedCol[selectedCol.length - 1].innerHTML); //Assigns final td of selected row to var total
+  var oldValue = parseInt(selectedCol[colValue].innerHTML);//Assigns current td innerHTML to var oldValue.
+  //console.log(total);
+  //console.log(newCell);
+  //console.log(oldValue);
+  total += newCell - oldValue; //subtracts current value from total value and adds new value from input field
   selectedCol[selectedCol.length - 1].innerHTML = total;
   selectedCol[colValue].innerHTML = newCell;
-  var rowLength = document.getElementsByTagName('tr').length;
-  tableBody.deleteRow(rowLength - 2);
-  hourlyTotals[colValue] = hourlyTotals[colValue] + newCell - oldValue;
-  hourlyTotals[hourlyTotals.length-1] = hourlyTotals[hourlyTotals.length-1] + newCell - oldValue;
+  //console.log(rowLength);
+  ///console.log(objectCounter);
+  hourlyTotals[colValue] += newCell - oldValue; //updates relative index of hourlyTotals array
+  hourlyTotals[hourlyTotals.length-1] += newCell - oldValue; //updates final index of hourlyTotals with new totals
+  //deletes total row and recreates it with new totals using totalGen().
+  tableBody.deleteRow(objectCounter);
   totalGen();
-
-  console.log(hourlyTotals[colValue]);
+  //console.log(hourlyTotals[colValue]);
   //console.log(newCell);
   cellForm.reset();
 }
