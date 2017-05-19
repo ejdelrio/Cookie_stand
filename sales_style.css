@@ -408,26 +408,104 @@ table {
 * {
   font-family: Verdana;
 }
-
-thead {
-  background: pink;
+body {
+  background: url("http://moheban-ahlebeit.com/images/Cafe-Backgrounds/Cafe-Backgrounds-19.jpg");
 }
 
-td {
-  padding: 20px;
-  margin: 20px;
-
+form {
+  width: 600px;
+  height: 300px;
+  background: #bdd09f;
   border: 1px solid black;
+  display: inline-block;
+  margin-left: 30px;
+  margin-top: 30px;
+  transition: 1s all
+}
+
+form:hover {
+  border-radius: 50px;
+  transform: rotate(360deg);
+}
+
+form * {
+  margin-left: 10px;
+  outline: none;
+  border: none;
+  display: relative
+}
+
+table {
+  margin: 30px;
+  border-radius: 50px;
+}
+
+#cell_select {
+  position: absolute;
+}
+
+
+td {
+  padding: 15px;
+  margin: 15px;
+  border: 1px solid black;
+  background: #bdd09f;
+}
+
+thead td{
+  background: #4D4C33;
+  color: white;
+}
+
+tr>:nth-child(1) {
+  background: #4D4C33;
+  color: white;
 }
 
 input[type="text"] {
+  width: 100px;
   padding: 5px;
   margin-left: 10px;
   border: solid 1px black;
   border-radius: 5px;
+  transition: 1s;
+
 }
 
 input[type="text"]:focus {
   background: #000;
   color: #fff;
+  width: 300px;
+}
+
+#submit-btn {
+  height: 50px;
+  width: 100px;
+  border-radius: 20px;
+  background: #FF8C69;
+  margin-left: 30px;
+  color: white;
+  border: 1px solid black;
+  margin-bottom: 5px;
+}
+
+#submit_cell {
+  height: 50px;
+  width: 100px;
+  border-radius: 20px;
+  background: #FF8C69;
+  margin-left: 30px;
+  color: white;
+  border: 1px solid black;
+  margin-bottom: 5px;
+}
+
+#submit_cell:hover {
+  background: black;
+  color: white;
+}
+
+#submit-btn:hover {
+  background: black;
+  color: white;
 }

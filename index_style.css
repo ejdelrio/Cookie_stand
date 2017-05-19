@@ -12,8 +12,6 @@ ul {
   list-style: none;
 }
 
-/* app styles */
-
 header {
   position: fixed;
   height: 100px;
@@ -24,25 +22,32 @@ header {
 }
 
 header div {
-  width: 960px;
+  width: 980px;
   margin: 0 auto;
 }
-
+header div>* {
+  display: inline-block;
+}
 header div img {
-  float: left;
   height: 70px;
-  width: 150x;
-  margin-right: 50px;
-  background: #FF8C69;
-  border-radius: 500px;
+  width: 150px;
+  background: white;
+  border-radius: 500px
 }
 
-nav ul li {
+.nav_button {
   display: inline-block;
   font-size: 25px;
   margin-right: 70px;
   margin-top: 45px;
   font-family: 'Lobster', cursive;
+}
+
+.nav_button:hover {
+  color: white;
+  background: #FF8C69;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 main {
@@ -53,12 +58,27 @@ main {
   background: rgba(1, 1, 1, 0.5);
 }
 
+main * {
+  opacity: 0;
+  transition: 2s all;
+}
+
+main * {
+  opacity: 1;
+}
+
+
 h1 {
   font-size: 55px;
   text-align: center;
   color: white;
   font-family: 'Courgette', cursive;
 }
+
+.main_display {
+  margin: auto;
+}
+
 
 .featured_content {
   width: 960px;
@@ -75,20 +95,23 @@ h1 {
 }
 
 .featured_content >:first-child {
-  background: url("https://apatandapinch.files.wordpress.com/2014/05/dsc_0016.jpg");
+  background: url("family.jpg");
   background-size: contain;
   background-repeat: no-repeat;
+  height: 240px;
+  margin-bottom: 0px;
 }
 
 .featured_content>:last-child {
   margin-bottom: 5px;
+  height: 240px;
 }
 
 .featured_content>:last-child p {
   margin: 0;
   padding: 0;
   color: white;
-  font-size: 23px;
+  font-size: 20px;
   top: 0;
   z-index: 0;
   font-family: Georgia;
@@ -106,31 +129,55 @@ h1 {
   height: 280px;
   background: white;
   margin-left: 30px;
-  margin-top: 30px;
+  margin-top: 0px;
 }
 
 .gallery>ul>:first-child {
-  background: url("http://www.te-cafe.com/wp-content/uploads/cache-5e24465b588fd5dcd1d2035949ebb04a/2013/07/cup-of-coffee.jpg");
+  background: url("shirt.jpg");
   background-size: cover;
   background-repeat: no-repeat;
 }
 
 .gallery>ul>:last-child {
-  background: url("http://public.media.smithsonianmag.com/legacy_blog/espresso.jpg");
+  background: url("cutter.jpeg");
   background-size: cover;
   background-repeat: no-repeat;
 }
 
 .gallery>ul>:nth-child(2) {
-  background: url("https://i.kinja-img.com/gawker-media/image/upload/s--9Y4mCdiV--/c_scale,fl_progressive,q_80,w_800/1494235991390551469.jpg");
+  background: url("fish.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  transition: 1s all
+}
+
+.gallery>ul>:last-child:hover {
+  background: url("frosted-cookie.jpg");
   background-size: cover;
   background-repeat: no-repeat;
 }
 
-footer {
+
+.store_items li {
+  position: relative;
+}
+
+.store_items li p {
+  position: absolute;
+  text-align: center;
   margin: 0px;
+  height: 40px;
+  font-size: 30px;
+  background: rgba(1, 1, 1, 0.5);
+  color: white;
+  width: 100%;
+  bottom: 0;
+}
+
+footer {
+  margin: auto;
   padding: 0;
-  width: 1265px;
+  width: 1200px;
   height: 200px;
   background: #4D4C33;
   opacity: 0.9;
