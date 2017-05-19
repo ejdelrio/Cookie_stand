@@ -24,7 +24,8 @@ function Store (storeLocation, minimum, maximum, averages) {
   this.minPerHour = minimum;//Assigns minPerHour key to corresponding value.
   this.maxPerHour = maximum; //Assigns mxnPerHour key to corresponding value
   this.avgPerCustomer = averages; //Assigns avgPerCustomer key to corresponding value
- //Assigns each location a closing time
+  this.opening = openHour; //Assigns each location an opening time
+  this.closing = closeHour; //Assigns each location a closing time
   this.dailySales = ['<td>' + storeLocation + '</td>'];
   //Empty array that hold hourly sales
   //Creates a week object that will house each daily sales array
@@ -162,14 +163,15 @@ function changeCell(e) {
   total += parseInt(newCell);
   selectedCol[selectedCol.length - 1].innerHTML = total;
   selectedCol[colValue].innerHTML = newCell;
+  var rowLength = document.getElementsByTagName('tr').length;
+  tableBody.deleteRow(rowLength - 2);
+  hourlyTotals[colValue] = hourlyTotals[colValue] + newCell - oldValue;
+  hourlyTotals[hourlyTotals.length-1] = hourlyTotals[hourlyTotals.length-1] + newCell - oldValue;
+  totalGen();
 
-  var lastRow = tableBody.lastChild;
-  var bigTotal = parseInt(lastRow.lastChild.innerHTML);
-
-  lastRow.lastChild.innerHTML = bigTotal - oldValue + newCell;
-  //console.log(selectedRow);
+  console.log(hourlyTotals[colValue]);
   //console.log(newCell);
-  form.reset();
+  cellForm.reset();
 }
 //Add's event listener to form that runs createStore function
 form.addEventListener('submit', createStore);

@@ -31,7 +31,7 @@ header div img {
   height: 70px;
   width: 150x;
   margin-right: 50px;
-  background: #FF8C69;
+  background: white;
   border-radius: 500px;
 }
 
@@ -95,20 +95,23 @@ h1 {
 }
 
 .featured_content >:first-child {
-  background: url("https://apatandapinch.files.wordpress.com/2014/05/dsc_0016.jpg");
+  background: url("family.jpg");
   background-size: contain;
   background-repeat: no-repeat;
+  height: 240px;
+  margin-bottom: 0px;
 }
 
 .featured_content>:last-child {
   margin-bottom: 5px;
+  height: 240px;
 }
 
 .featured_content>:last-child p {
   margin: 0;
   padding: 0;
   color: white;
-  font-size: 23px;
+  font-size: 20px;
   top: 0;
   z-index: 0;
   font-family: Georgia;
@@ -126,25 +129,41 @@ h1 {
   height: 280px;
   background: white;
   margin-left: 30px;
-  margin-top: 30px;
+  margin-top: 0px;
 }
 
 .gallery>ul>:first-child {
-  background: url("http://www.te-cafe.com/wp-content/uploads/cache-5e24465b588fd5dcd1d2035949ebb04a/2013/07/cup-of-coffee.jpg");
+  background: url("shirt.jpg");
   background-size: cover;
   background-repeat: no-repeat;
 }
 
 .gallery>ul>:last-child {
-  background: url("http://public.media.smithsonianmag.com/legacy_blog/espresso.jpg");
+  background: url("cutter.jpeg");
   background-size: cover;
   background-repeat: no-repeat;
 }
 
 .gallery>ul>:nth-child(2) {
-  background: url("https://i.kinja-img.com/gawker-media/image/upload/s--9Y4mCdiV--/c_scale,fl_progressive,q_80,w_800/1494235991390551469.jpg");
+  background: url("fish.jpg");
   background-size: cover;
   background-repeat: no-repeat;
+}
+
+.store_items li {
+  position: relative;
+}
+
+.store_items li p {
+  position: absolute;
+  text-align: center;
+  margin: 0px;
+  height: 40px;
+  font-size: 30px;
+  background: rgba(1, 1, 1, 0.5);
+  color: white;
+  width: 100%;
+  bottom: 0;
 }
 
 footer {
