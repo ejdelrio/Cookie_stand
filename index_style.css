@@ -22,17 +22,17 @@ header {
 }
 
 header div {
-  width: 960px;
+  width: 980px;
   margin: 0 auto;
 }
-
+header div>* {
+  display: inline-block;
+}
 header div img {
-  float: left;
   height: 70px;
-  width: 150x;
-  margin-right: 50px;
+  width: 150px;
   background: white;
-  border-radius: 500px;
+  border-radius: 500px
 }
 
 .nav_button {
@@ -148,7 +148,15 @@ h1 {
   background: url("fish.jpg");
   background-size: cover;
   background-repeat: no-repeat;
+  transition: 1s all
 }
+
+.gallery>ul>:last-child:hover {
+  background: url("frosted-cookie.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 
 .store_items li {
   position: relative;
