@@ -152,24 +152,24 @@ function createStore(e) {
 function changeCell(e) {
   e.preventDefault();
   //Messy but functional :D
-  var rowValue = event.target.location.value;
+  //Recieves selected row and column, then takes text input and inserts innerHTML
+  //Updates hourlyTotal array at selected column and the final value of hourlyTotals
   var colValue = event.target.time.value;
   var newCell = parseInt(event.target.new_value.value);
-  var selectedRow = tableBody.getElementsByTagName('tr')[rowValue];
+  var selectedRow = tableBody.getElementsByTagName('tr')[event.target.location.value];
   var selectedCol = selectedRow.getElementsByTagName('td');
   var total = selectedCol[selectedCol.length - 1].innerHTML;
   var oldValue = parseInt(selectedCol[colValue].innerHTML);
   total -= oldValue;
-  total += parseInt(newCell);
+  total += newCell;
   selectedCol[selectedCol.length - 1].innerHTML = total;
   selectedCol[colValue].innerHTML = newCell;
   var rowLength = document.getElementsByTagName('tr').length;
   tableBody.deleteRow(rowLength - 2);
-  hourlyTotals[colValue] = hourlyTotals[colValue] + newCell - oldValue;
-  hourlyTotals[hourlyTotals.length-1] = hourlyTotals[hourlyTotals.length-1] + newCell - oldValue;
+  hourlyTotals[colValue] += newCell - oldValue;
+  hourlyTotals[hourlyTotals.length-1] += newCell - oldValue;
   totalGen();
-
-  console.log(hourlyTotals[colValue]);
+  //console.log(hourlyTotals[colValue]);
   //console.log(newCell);
   cellForm.reset();
 }
