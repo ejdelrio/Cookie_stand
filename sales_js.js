@@ -18,16 +18,13 @@ var tableBody = document.createElement('tbody');
 var form = document.getElementById('store_entry');
 var cellForm = document.getElementById('cell_select');
 
-
-
 function Store (storeLocation, minimum, maximum, averages) {
   //Store constructor that creates new store Objects
   this.storeLocation = storeLocation;
   this.minPerHour = minimum;//Assigns minPerHour key to corresponding value.
   this.maxPerHour = maximum; //Assigns mxnPerHour key to corresponding value
   this.avgPerCustomer = averages; //Assigns avgPerCustomer key to corresponding value
-  this.opening = openHour; //Assigns each location an opening time
-  this.closing = closeHour; //Assigns each location a closing time
+ //Assigns each location a closing time
   this.dailySales = ['<td>' + storeLocation + '</td>'];
   //Empty array that hold hourly sales
   //Creates a week object that will house each daily sales array
@@ -43,8 +40,6 @@ Store.prototype.cusPerHour = function () {
 Store.prototype.cookiesPerHour = function () {
   return this.cusPerHour() * this.avgPerCustomer;
 };
-
-
 
 Store.prototype.salesGen = function () {
   //Generates random numbers to append to dailySales, 1 for every hour of operation and a total
@@ -76,9 +71,6 @@ function dropDownTime(newEntry, value, menuName) {
   menuItem.innerHTML = newEntry;
   dropMenu.appendChild(menuItem);
 }
-
-
-
 
 function headGen() {
   //Generates a table head that is variable and based off of opening and closing time
@@ -117,8 +109,6 @@ function alreadyExist() {
 }
 
 alreadyExist();
-
-
 
 function totalGen () {
   //uses hourlyTotals to create a row of totals that is appended to table
@@ -163,16 +153,20 @@ function changeCell(e) {
   //Messy but functional :D
   var rowValue = event.target.location.value;
   var colValue = event.target.time.value;
-  var newCell = event.target.new_value.value;
+  var newCell = parseInt(event.target.new_value.value);
   var selectedRow = tableBody.getElementsByTagName('tr')[rowValue];
   var selectedCol = selectedRow.getElementsByTagName('td');
   var total = selectedCol[selectedCol.length - 1].innerHTML;
-  var oldValue = selectedCol[colValue].innerHTML;
+  var oldValue = parseInt(selectedCol[colValue].innerHTML);
   total -= oldValue;
   total += parseInt(newCell);
   selectedCol[selectedCol.length - 1].innerHTML = total;
   selectedCol[colValue].innerHTML = newCell;
 
+  var lastRow = tableBody.lastChild;
+  var bigTotal = parseInt(lastRow.lastChild.innerHTML);
+
+  lastRow.lastChild.innerHTML = bigTotal - oldValue + newCell;
   //console.log(selectedRow);
   //console.log(newCell);
   form.reset();
