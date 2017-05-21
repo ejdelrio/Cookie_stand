@@ -69,8 +69,12 @@ Store.prototype.render = function () {
 };
 
 function dropDownTime(newEntry, value, menuName) {
+  //Takes 3 arguements, item to be entered as a dropdown options, it's value, and which dropdown it will be assigned to
+  //Assigns var dropMenu to element with matchion menuName name
   var dropMenu = document.getElementsByName(menuName)[0];
+  //Creates new option to append do dropMenu
   var menuItem = document.createElement('option');
+  //Assigns value parameter to menuItem element
   menuItem.value = value;
   menuItem.innerHTML = newEntry;
   dropMenu.appendChild(menuItem);
