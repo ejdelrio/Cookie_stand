@@ -6,7 +6,8 @@ var averages = [6.3, 1.2, 3.7, 2.3, 4.6];
 var names = ['First and Pike', 'Seatac Airport', 'Seattle Center', 'Capital Hill', 'Alki'];
 var openHour = 6; //var will be used to assign key value pairs, additionally, var will be uesed in for loops for DOM li elements
 var closeHour = 21;
-var objectCounter = 0;
+var packedStores = [];
+
 //Test array collects hourly totals per index and a daily total as the last index for our
 //total row
 var hourlyTotals = ['<td>Total:</td>'];
@@ -14,6 +15,7 @@ for (var i = 0; i < (closeHour - openHour) + 1; i++) {
   hourlyTotals.push(0);
 }
 
+var masterTable = document.getElementById('table_head');
 var tableBody = document.createElement('tbody');
 var form = document.getElementById('store_entry');
 var cellForm = document.getElementById('cell_select');
@@ -62,7 +64,8 @@ Store.prototype.render = function () {
   //table row is then appended to tableBody
   var storeRow = document.createElement('tr');
   storeRow.innerHTML = this.dailySales.join('');
-  tableBody.appendChild(storeRow);
+  masterTable.lastChild.appendChild(storeRow);
+  packedStores.push(this);
 };
 
 function dropDownTime(newEntry, value, menuName) {
@@ -76,7 +79,6 @@ function dropDownTime(newEntry, value, menuName) {
 function headGen() {
   //Generates a table head that is variable and based off of opening and closing time
   var headArray = ['<td>Locations</td>'];
-  var masterTable = document.getElementById('table_head');
   var tHead = document.createElement('thead');
 
   for (var i = 0; i < (closeHour - openHour); i++) {
@@ -90,12 +92,13 @@ function headGen() {
   }
   headArray.push('<td>Totals</td>');
   tHead.innerHTML = headArray.join('');
-  masterTable.appendChild(tHead);
-  masterTable.appendChild(tableBody);
+  return tHead;
 }
 
-headGen();
-
+function formTable() {
+  masterTable.appendChild(headGen());
+  masterTable.appendChild(tableBody);
+}
 
 
 function alreadyExist() {
@@ -104,12 +107,11 @@ function alreadyExist() {
     var tempName = new Store(names[i], mins[i], maxes[i], averages[i]);
     tempName.salesGen();
     tempName.render();
-    dropDownTime(tempName.storeLocation, objectCounter, 'location');
-    objectCounter+= 1;
+    dropDownTime(tempName.storeLocation, packedStores.length - 1, 'location');
+
   }
 }
 
-alreadyExist();
 
 function totalGen () {
   //uses hourlyTotals array to create a row of totals that is appended to table
@@ -119,9 +121,52 @@ function totalGen () {
     totalArray.push('<td>' + hourlyTotals[i] + '</td>');
   }
   totalRow.innerHTML = totalArray.join('');
-  tableBody.appendChild(totalRow);
+  masterTable.lastChild.appendChild(totalRow);
+  packageStore();
 }
-totalGen();
+
+function packageStore () {
+  //Retrieves session specific information and stores it as strings in sessionStorage Object
+  var tableString = masterTable.innerHTML;
+  sessionStorage.setItem('table', tableString);
+  sessionStorage.setItem('allStores', JSON.stringify(packedStores));
+  sessionStorage.setItem('totals', JSON.stringify(hourlyTotals));
+}
+
+function unpackStore () {
+  // Re-assigns default variables with storageSession Objectsvariables
+  masterTable.innerHTML = sessionStorage['table'];
+  packedStores = JSON.parse(sessionStorage.allStores);
+  hourlyTotals = JSON.parse(sessionStorage.totals);
+  // Repopulates dropdown menu options
+  for (var i = 0; i < packedStores.length; i++) {
+    dropDownTime(packedStores[i].storeLocation, i, 'location');
+  }
+  for (i = 0; i < (closeHour - openHour); i++) {
+    if (i + openHour <= 12) {
+      dropDownTime((i + openHour)  + ' am', i+ 1, 'time');
+    } else {
+      dropDownTime((i - openHour)  + ' pm', i+ 1, 'time');
+    }
+  }
+}
+
+
+function restoreSession () {
+  //Checkes to see if previous data has benn stored in sessionStorage
+  if(sessionStorage.length === 0) {
+    //If true, creates table, populates with precreated Store objects and generates a row with totals
+    formTable();
+    alreadyExist();
+    totalGen();
+  } else {
+    //If false, retrieves old table, old store objects and populates dropdowns with previous options
+    unpackStore();
+  }
+}
+
+restoreSession();
+
 
 
 
@@ -136,14 +181,12 @@ function createStore(e) {
   //plugs variables into object constructor and temporary object
   var tempStore = new Store(name, minimum, maximum, avg);
   //Deletes total row from table
-  var rowLength = document.getElementsByTagName('tr').length;
-  tableBody.deleteRow(rowLength - 2);
+  masterTable.lastChild.deleteRow(packedStores.length);
   //Calles object method to populate daily sales arrays
   tempStore.salesGen();
   //calls render method to append td elements to table
   tempStore.render();
-  dropDownTime(tempStore.storeLocation, objectCounter, 'location');
-  objectCounter+= 1;
+  dropDownTime(tempStore.storeLocation, packedStores.length - 1, 'location');
   //recreates total row with new values added
   totalGen();
   form.reset();//Resets form input fields
@@ -154,24 +197,22 @@ function changeCell(e) {
   //Messy but functional :D
   //Recieves selected row and column, then takes text input and inserts innerHTML
   //Updates hourlyTotal array at selected column and the final value of hourlyTotals
-  var colValue = event.target.time.value; //value of time dropdown menu
+  var colValue = parseInt(event.target.location.value);
+  var rowValue = parseInt(event.target.time.value); //value of time dropdown menu
   var newCell = parseInt(event.target.new_value.value); //text input value
-  var selectedRow = tableBody.getElementsByTagName('tr')[event.target.location.value]; //selects table row using value of locations selector
-  var selectedCol = selectedRow.getElementsByTagName('td'); //selects specific cell in tr using the colValue as the index
-  var total = parseInt(selectedCol[selectedCol.length - 1].innerHTML); //Assigns final td of selected row to var total
-  var oldValue = parseInt(selectedCol[colValue].innerHTML);//Assigns current td innerHTML to var oldValue.
-  //console.log(total);
-  //console.log(newCell);
-  //console.log(oldValue);
+  var targetTD = masterTable.lastChild.childNodes[colValue].childNodes[rowValue];
+  var oldValue = parseInt(targetTD.innerHTML);
+  var total = parseInt(masterTable.lastChild.childNodes[colValue].lastChild.innerHTML);
+
+
   total += newCell - oldValue; //subtracts current value from total value and adds new value from input field
-  selectedCol[selectedCol.length - 1].innerHTML = total;
-  selectedCol[colValue].innerHTML = newCell;
-  //console.log(rowLength);
-  ///console.log(objectCounter);
-  hourlyTotals[colValue] += newCell - oldValue; //updates relative index of hourlyTotals array
-  hourlyTotals[hourlyTotals.length-1] += newCell - oldValue; //updates final index of hourlyTotals with new totals
+  masterTable.lastChild.childNodes[colValue].lastChild.innerHTML = total;
+  targetTD.innerHTML = newCell;
+
+  hourlyTotals[rowValue] += newCell - oldValue; //updates relative index of hourlyTotals array
+  hourlyTotals[hourlyTotals.length -1] += newCell - oldValue; //updates final index of hourlyTotals with new totals
   //deletes total row and recreates it with new totals using totalGen().
-  tableBody.deleteRow(objectCounter);
+  masterTable.lastChild.deleteRow(packedStores.length);
   totalGen();
   //console.log(hourlyTotals[colValue]);
   //console.log(newCell);
